@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/cache/
+results/paper/*.sqlite
+results/paper/*.sqlite-*
+results/paper/*.backup*
+results/paper/paper_account.sqlite
+results/paper/snapshots.csv
+results/paper/trades.csv

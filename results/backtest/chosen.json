@@ -1,0 +1,63 @@
+{
+  "train_window": [
+    "2018-01-02",
+    "2023-12-29"
+  ],
+  "test_window": [
+    "2024-01-02",
+    "2026-11-20"
+  ],
+  "dual_ma_params": {
+    "fast": 20,
+    "slow": 250
+  },
+  "momentum_params": {
+    "lookback": 120,
+    "rebalance_every": 20,
+    "abs_filter": true
+  },
+  "sample_last_day": "2026-11-20",
+  "universe": {
+    "510300": "沪深300ETF",
+    "510050": "上证50ETF",
+    "510500": "中证500ETF",
+    "159915": "创业板ETF",
+    "510880": "红利ETF"
+  },
+  "costs": {
+    "commission_rate": 0.00025,
+    "commission_min": 5.0,
+    "stamp_tax_old": 0.001,
+    "stamp_tax_new": 0.0005,
+    "stamp_tax_cut_date": "2023-08-28",
+    "transfer_fee_rate": 1e-05,
+    "slippage": 0.001,
+    "fill": "signal at close T, fill at close T+1, T+1 sell restriction, 100-share lots"
+  },
+  "vectorbt_sanity": {
+    "train": {
+      "vectorbt_from_holding_total_return": -0.07446808510638306,
+      "plain_price_total_return": -0.07446808510638303,
+      "start": "2018-01-02",
+      "end": "2023-12-29",
+      "note": "vectorbt 不含佣金、印花税、滑点、T+1 和一手限制，只用来核对价格收益率。",
+      "index_000300_price_return": -0.1605643781953373
+    },
+    "test": {
+      "vectorbt_from_holding_total_return": 0.2663094862905767,
+      "plain_price_total_return": 0.2663094862905766,
+      "start": "2024-01-02",
+      "end": "2026-11-20",
+      "note": "vectorbt 不含佣金、印花税、滑点、T+1 和一手限制，只用来核对价格收益率。",
+      "index_000300_price_return": 0.1677950195372484
+    }
+  },
+  "best_on_test": {
+    "key": "equal_weight",
+    "name": "五只ETF等权持有",
+    "ann_return": 0.09852761972332558,
+    "sharpe": 0.5605175348375397,
+    "max_drawdown": -0.21553286383393522,
+    "total_return": 0.296814895
+  }
+}
