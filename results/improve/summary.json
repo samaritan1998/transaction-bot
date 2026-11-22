@@ -1,0 +1,608 @@
+{
+  "train_window": [
+    "2018-01-02",
+    "2023-12-29"
+  ],
+  "test_window": [
+    "2024-01-02",
+    "2026-11-20"
+  ],
+  "n_new_configs": 47,
+  "n_prior_baseline_grids": 12,
+  "n_families": 14,
+  "winner_keys": [
+    "vol_bh_lb20_tv12",
+    "vol_ew_lb20_tv12",
+    "vol_ew_bond_tv8",
+    "trend_ew_ma250",
+    "trend_ew_bond_ma250",
+    "rp3_lb20",
+    "rp4_lb20",
+    "rp3_trend_ma120",
+    "rp4_trend_ma120",
+    "sixty_forty",
+    "perm_lite",
+    "dual_ma_bond_20_250",
+    "mom2_lb120_h0_bond",
+    "vol_ma20_250_tv15"
+  ],
+  "n_promoted": 4,
+  "promoted_keys": [
+    "vol_ew_bond_tv8",
+    "rp3_lb20",
+    "rp4_lb20",
+    "perm_lite"
+  ],
+  "bar": {
+    "sharpe_edge": 0.15,
+    "dd_tolerance": 0.05,
+    "ann_ret_tolerance": 0.02,
+    "min_train_sharpe": 0.1,
+    "year_rule": "at least 2 calendar years in the test window with Sharpe >= BH that year"
+  },
+  "judgement": [
+    {
+      "key": "vol_bh_lb20_tv12",
+      "family": "vol_target_bh",
+      "name": "沪深300目标波动率（回看20日，目标12%）",
+      "params": {
+        "symbol": "510300",
+        "vol_lookback": 20,
+        "target_vol": 0.12,
+        "max_weight": 1.0
+      },
+      "factory": "make_vol_target_symbol",
+      "description": "按 510300 过去波动率缩放仓位，剩余现金，每月再平衡。",
+      "train": {
+        "total_return": -0.007685462999998949,
+        "ann_return": -0.0013344230049938677,
+        "max_drawdown": -0.3181164634632565,
+        "sharpe": 0.060646632488371995,
+        "ann_turnover": 1.0000635369440403,
+        "n_trades": 71,
+        "end_equity": 99231.4537000001
+      },
+      "test": {
+        "total_return": 0.2581575100000002,
+        "ann_return": 0.08657358840244478,
+        "max_drawdown": -0.1704411386042567,
+        "sharpe": 0.6040673739200588,
+        "ann_turnover": 1.1419084120472172,
+        "n_trades": 31,
+        "end_equity": 125815.75100000002
+      },
+      "fails": [
+        "测试段夏普 0.60 未达到对照最高夏普 0.56 + 0.15",
+        "训练段夏普 0.06 低于 0.10，训练期不稳健"
+      ],
+      "passed": false
+    },
+    {
+      "key": "vol_ew_lb20_tv12",
+      "family": "vol_target_ew",
+      "name": "五只ETF等权目标波动率（回看20日，目标12%）",
+      "params": {
+        "vol_lookback": 20,
+        "target_vol": 0.12,
+        "max_scale": 1.0
+      },
+      "factory": "make_vol_target_equal_weight",
+      "description": "等权五只核心ETF，再按组合波动率缩仓，剩余现金。",
+      "train": {
+        "total_return": 0.09242888600000088,
+        "ann_return": 0.01541826863668283,
+        "max_drawdown": -0.2474009241839984,
+        "sharpe": 0.179455743445924,
+        "ann_turnover": 0.9881618055797403,
+        "n_trades": 348,
+        "end_equity": 109242.88860000008
+      },
+      "test": {
+        "total_return": 0.27054429600000085,
+        "ann_return": 0.09042917781490889,
+        "max_drawdown": -0.17665915163414758,
+        "sharpe": 0.5969014685701153,
+        "ann_turnover": 1.3085227482829118,
+        "n_trades": 167,
+        "end_equity": 127054.42960000009
+      },
+      "fails": [
+        "测试段夏普 0.60 未达到对照最高夏普 0.56 + 0.15"
+      ],
+      "passed": false
+    },
+    {
+      "key": "vol_ew_bond_tv8",
+      "family": "vol_ew_bond",
+      "name": "五只ETF等权目标波动率，剩余进国债（回看60日，目标8%）",
+      "params": {
+        "vol_lookback": 60,
+        "target_vol": 0.08,
+        "max_scale": 1.0,
+        "leftover": "511010"
+      },
+      "factory": "make_vol_target_equal_weight",
+      "description": "等权五只核心ETF并按组合波动率缩仓，剩余配置 511010。",
+      "train": {
+        "total_return": 0.05923131800000081,
+        "ann_return": 0.010009207665995667,
+        "max_drawdown": -0.17120371866205653,
+        "sharpe": 0.1586793706817739,
+        "ann_turnover": 0.7755336001026947,
+        "n_trades": 352,
+        "end_equity": 105923.13180000008
+      },
+      "test": {
+        "total_return": 0.2674802820000004,
+        "ann_return": 0.0894776953068841,
+        "max_drawdown": -0.09097053855460169,
+        "sharpe": 0.8255031849461054,
+        "ann_turnover": 1.1960719693073683,
+        "n_trades": 169,
+        "end_equity": 126748.02820000003
+      },
+      "fails": [],
+      "passed": true
+    },
+    {
+      "key": "trend_ew_ma250",
+      "family": "trend_ew",
+      "name": "五只ETF趋势过滤等权（均线250日，空仓）",
+      "params": {
+        "ma_window": 250,
+        "symbols": [
+          "510300",
+          "510050",
+          "510500",
+          "159915",
+          "510880"
+        ],
+        "defensive": null
+      },
+      "factory": "make_trend_equal_weight",
+      "description": "只持有收盘价高于自身均线的核心ETF，等权；全不满足则空仓。",
+      "train": {
+        "total_return": 0.20157513300000107,
+        "ann_return": 0.032293150964578965,
+        "max_drawdown": -0.3227640298317207,
+        "sharpe": 0.26530967247467996,
+        "ann_turnover": 2.0132798681220128,
+        "n_trades": 181,
+        "end_equity": 120157.51330000011
+      },
+      "test": {
+        "total_return": 0.12978616900000062,
+        "ann_return": 0.0451070296628413,
+        "max_drawdown": -0.2382798738322246,
+        "sharpe": 0.33965877883406165,
+        "ann_turnover": 2.5109224408941198,
+        "n_trades": 122,
+        "end_equity": 112978.61690000005
+      },
+      "fails": [
+        "测试段夏普 0.34 未达到对照最高夏普 0.56 + 0.15",
+        "测试段年化 4.51% 低于对照较弱一方减容忍后的 6.97%",
+        "测试窗内仅 1/3 个日历年夏普不低于买入持有（2024 夏普 0.01 / 买入持有 0.93, 2025 夏普 1.43 / 买入持有 1.60, 2026 夏普 -0.32 / 买入持有 -0.99）"
+      ],
+      "passed": false
+    },
+    {
+      "key": "trend_ew_bond_ma250",
+      "family": "trend_ew_bond",
+      "name": "五只ETF趋势过滤等权（均线250日，防守国债）",
+      "params": {
+        "ma_window": 250,
+        "symbols": [
+          "510300",
+          "510050",
+          "510500",
+          "159915",
+          "510880"
+        ],
+        "defensive": "511010"
+      },
+      "factory": "make_trend_equal_weight",
+      "description": "只持有收盘价高于自身均线的核心ETF；全不满足则持有 511010。",
+      "train": {
+        "total_return": 0.2517496680000011,
+        "ann_return": 0.039628140076969576,
+        "max_drawdown": -0.333160690363265,
+        "sharpe": 0.30356655792187026,
+        "ann_turnover": 2.4978582885676293,
+        "n_trades": 179,
+        "end_equity": 125174.96680000011
+      },
+      "test": {
+        "total_return": 0.12549112300000087,
+        "ann_return": 0.04366880104823978,
+        "max_drawdown": -0.2415576967134292,
+        "sharpe": 0.3316958153085241,
+        "ann_turnover": 2.817387997444552,
+        "n_trades": 117,
+        "end_equity": 112549.11230000008
+      },
+      "fails": [
+        "测试段夏普 0.33 未达到对照最高夏普 0.56 + 0.15",
+        "测试段年化 4.37% 低于对照较弱一方减容忍后的 6.97%",
+        "测试窗内仅 1/3 个日历年夏普不低于买入持有（2024 夏普 -0.02 / 买入持有 0.93, 2025 夏普 1.43 / 买入持有 1.60, 2026 夏普 -0.32 / 买入持有 -0.99）"
+      ],
+      "passed": false
+    },
+    {
+      "key": "rp3_lb20",
+      "family": "risk_parity_3",
+      "name": "股债金风险平价（回看20日）",
+      "params": {
+        "symbols": [
+          "510300",
+          "511010",
+          "518880"
+        ],
+        "vol_lookback": 20,
+        "ma_window": null,
+        "defensive": "511010"
+      },
+      "factory": "make_risk_parity",
+      "description": "510300 / 511010 / 518880 按逆波动率加权，月度再平衡，不加杠杆。",
+      "train": {
+        "total_return": 0.26797502600000045,
+        "ann_return": 0.04194808943252459,
+        "max_drawdown": -0.038840672273934396,
+        "sharpe": 1.3682579204326941,
+        "ann_turnover": 0.9407702156477783,
+        "n_trades": 181,
+        "end_equity": 126797.50260000005
+      },
+      "test": {
+        "total_return": 0.21981500300000034,
+        "ann_return": 0.07448298287928035,
+        "max_drawdown": -0.020117370913895316,
+        "sharpe": 2.4686922054060845,
+        "ann_turnover": 0.9625848014655468,
+        "n_trades": 79,
+        "end_equity": 121981.50030000004
+      },
+      "fails": [],
+      "passed": true
+    },
+    {
+      "key": "rp4_lb20",
+      "family": "risk_parity_4",
+      "name": "股债金纳风险平价（回看20日）",
+      "params": {
+        "symbols": [
+          "510300",
+          "511010",
+          "518880",
+          "513100"
+        ],
+        "vol_lookback": 20,
+        "ma_window": null,
+        "defensive": "511010"
+      },
+      "factory": "make_risk_parity",
+      "description": "再加入 513100 纳指ETF，同样逆波动率加权。",
+      "train": {
+        "total_return": 0.367159707000001,
+        "ann_return": 0.05561895016287299,
+        "max_drawdown": -0.05183179521801817,
+        "sharpe": 1.560083713739726,
+        "ann_turnover": 1.0356730431325674,
+        "n_trades": 254,
+        "end_equity": 136715.9707000001
+      },
+      "test": {
+        "total_return": 0.2418914370000005,
+        "ann_return": 0.08147351989486395,
+        "max_drawdown": -0.022118799202953454,
+        "sharpe": 2.496756573406641,
+        "ann_turnover": 1.1259966697244257,
+        "n_trades": 120,
+        "end_equity": 124189.14370000004
+      },
+      "fails": [],
+      "passed": true
+    },
+    {
+      "key": "rp3_trend_ma120",
+      "family": "rp_trend_3",
+      "name": "股债金风险平价+趋势（回看60日，均线120）",
+      "params": {
+        "symbols": [
+          "510300",
+          "511010",
+          "518880"
+        ],
+        "vol_lookback": 60,
+        "ma_window": 120,
+        "defensive": "511010"
+      },
+      "factory": "make_risk_parity",
+      "description": "三资产风险平价，仅纳入价格高于均线的品种，否则偏国债。",
+      "train": {
+        "total_return": 0.5086984260000009,
+        "ann_return": 0.07377171643713587,
+        "max_drawdown": -0.0896820874051878,
+        "sharpe": 1.1365254575169323,
+        "ann_turnover": 1.7920976207888013,
+        "n_trades": 115,
+        "end_equity": 150869.8426000001
+      },
+      "test": {
+        "total_return": 0.16424552900000022,
+        "ann_return": 0.05652160952006846,
+        "max_drawdown": -0.014278986241676672,
+        "sharpe": 2.660228419011599,
+        "ann_turnover": 0.594859942788471,
+        "n_trades": 60,
+        "end_equity": 116424.55290000002
+      },
+      "fails": [
+        "测试段年化 5.65% 低于对照较弱一方减容忍后的 6.97%"
+      ],
+      "passed": false
+    },
+    {
+      "key": "rp4_trend_ma120",
+      "family": "rp_trend_4",
+      "name": "股债金纳风险平价+趋势（回看60日，均线120）",
+      "params": {
+        "symbols": [
+          "510300",
+          "511010",
+          "518880",
+          "513100"
+        ],
+        "vol_lookback": 60,
+        "ma_window": 120,
+        "defensive": "511010"
+      },
+      "factory": "make_risk_parity",
+      "description": "四资产风险平价，仅纳入价格高于均线的品种。",
+      "train": {
+        "total_return": 0.5060037690000012,
+        "ann_return": 0.07343953670728909,
+        "max_drawdown": -0.0844391998432632,
+        "sharpe": 1.1271411296604887,
+        "ann_turnover": 1.8698117356486947,
+        "n_trades": 180,
+        "end_equity": 150600.37690000012
+      },
+      "test": {
+        "total_return": 0.18177743300000038,
+        "ann_return": 0.062246339548529095,
+        "max_drawdown": -0.017350441252178994,
+        "sharpe": 2.5197099869453448,
+        "ann_turnover": 0.7512709220443778,
+        "n_trades": 96,
+        "end_equity": 118177.74330000003
+      },
+      "fails": [
+        "测试段年化 6.22% 低于对照较弱一方减容忍后的 6.97%"
+      ],
+      "passed": false
+    },
+    {
+      "key": "sixty_forty",
+      "family": "sixty_forty",
+      "name": "股债 60/40（510300+511010，每月再平衡）",
+      "params": {
+        "weights": {
+          "510300": 0.6,
+          "511010": 0.4
+        }
+      },
+      "factory": "make_fixed_mix",
+      "description": "固定 60% 沪深300ETF、40% 国债ETF。",
+      "train": {
+        "total_return": 0.049931508000000235,
+        "ann_return": 0.008468820506352337,
+        "max_drawdown": -0.2537596903285977,
+        "sharpe": 0.12989553063014886,
+        "ann_turnover": 0.18249919889226493,
+        "n_trades": 70,
+        "end_equity": 104993.15080000002
+      },
+      "test": {
+        "total_return": 0.20180658900000004,
+        "ann_return": 0.06872053088188346,
+        "max_drawdown": -0.12837993991804586,
+        "sharpe": 0.623849885870005,
+        "ann_turnover": 0.24596491499797285,
+        "n_trades": 32,
+        "end_equity": 120180.65890000001
+      },
+      "fails": [
+        "测试段夏普 0.62 未达到对照最高夏普 0.56 + 0.15",
+        "测试段年化 6.87% 低于对照较弱一方减容忍后的 6.97%"
+      ],
+      "passed": false
+    },
+    {
+      "key": "perm_lite",
+      "family": "perm_lite",
+      "name": "股债金 40/40/20（每月再平衡）",
+      "params": {
+        "weights": {
+          "510300": 0.4,
+          "511010": 0.4,
+          "518880": 0.2
+        }
+      },
+      "factory": "make_fixed_mix",
+      "description": "固定 40% 沪深300ETF、40% 国债ETF、20% 黄金ETF。",
+      "train": {
+        "total_return": 0.18660408400000006,
+        "ann_return": 0.030055501319352196,
+        "max_drawdown": -0.15709337947759128,
+        "sharpe": 0.36853769004178255,
+        "ann_turnover": 0.21082260847613815,
+        "n_trades": 129,
+        "end_equity": 118660.4084
+      },
+      "test": {
+        "total_return": 0.2592970480000003,
+        "ann_return": 0.08692929767123525,
+        "max_drawdown": -0.14480859659836143,
+        "sharpe": 0.8906396485712432,
+        "ann_turnover": 0.32913581217363547,
+        "n_trades": 63,
+        "end_equity": 125929.70480000002
+      },
+      "fails": [],
+      "passed": true
+    },
+    {
+      "key": "dual_ma_bond_20_250",
+      "family": "dual_ma_bond",
+      "name": "沪深300双均线 20/250，空仓改持国债",
+      "params": {
+        "fast": 20,
+        "slow": 250,
+        "symbol": "510300",
+        "defensive": "511010"
+      },
+      "factory": "make_dual_ma_defensive",
+      "description": "沿用训练段已选定的 20/250；均线空头时持有 511010 而非现金。",
+      "train": {
+        "total_return": 0.28211532600000155,
+        "ann_return": 0.04394997671446621,
+        "max_drawdown": -0.1906610120296791,
+        "sharpe": 0.3620627382148031,
+        "ann_turnover": 1.417435132472586,
+        "n_trades": 17,
+        "end_equity": 128211.53260000017
+      },
+      "test": {
+        "total_return": 0.13773309700000125,
+        "ann_return": 0.047758941107054254,
+        "max_drawdown": -0.1412628696101047,
+        "sharpe": 0.4015176263864489,
+        "ann_turnover": 1.4907781606625756,
+        "n_trades": 9,
+        "end_equity": 113773.30970000013
+      },
+      "fails": [
+        "测试段夏普 0.40 未达到对照最高夏普 0.56 + 0.15",
+        "测试段年化 4.78% 低于对照较弱一方减容忍后的 6.97%"
+      ],
+      "passed": false
+    },
+    {
+      "key": "mom2_lb120_h0_bond",
+      "family": "mom_top2",
+      "name": "月度动量前二（回看120，缓冲0%，防守bond）",
+      "params": {
+        "lookback": 120,
+        "top_n": 2,
+        "hysteresis": 0.0,
+        "symbols": [
+          "510300",
+          "510050",
+          "510500",
+          "159915",
+          "510880"
+        ],
+        "defensive": "511010",
+        "abs_filter": true
+      },
+      "factory": "make_momentum_topn",
+      "description": "在五只核心ETF中持有近看回期涨幅前两名；最高涨幅为负则现金或国债。换手缓冲减少边界抖动。",
+      "train": {
+        "total_return": 0.09084004800000312,
+        "ann_return": 0.015162509066223073,
+        "max_drawdown": -0.3789927807674106,
+        "sharpe": 0.17552273980469268,
+        "ann_turnover": 4.571114300738352,
+        "n_trades": 155,
+        "end_equity": 109084.00480000032
+      },
+      "test": {
+        "total_return": 0.23110721300000092,
+        "ann_return": 0.07806867861748135,
+        "max_drawdown": -0.23200941167284328,
+        "sharpe": 0.4601576862880029,
+        "ann_turnover": 3.0946021832875097,
+        "n_trades": 75,
+        "end_equity": 123110.72130000009
+      },
+      "fails": [
+        "测试段夏普 0.46 未达到对照最高夏普 0.56 + 0.15"
+      ],
+      "passed": false
+    },
+    {
+      "key": "vol_ma20_250_tv15",
+      "family": "vol_dual_ma",
+      "name": "双均线 20/250 再加目标波动率 15%",
+      "params": {
+        "fast": 20,
+        "slow": 250,
+        "vol_lookback": 60,
+        "target_vol": 0.15,
+        "symbol": "510300"
+      },
+      "factory": "make_vol_target_mix_dual_ma",
+      "description": "20/250 多头时持有 510300 并按波动率缩仓，空头空仓。",
+      "train": {
+        "total_return": 0.13559891900000065,
+        "ann_return": 0.022252468532533376,
+        "max_drawdown": -0.17888762198150876,
+        "sharpe": 0.25497915340778715,
+        "ann_turnover": 0.8281497301413879,
+        "n_trades": 32,
+        "end_equity": 113559.89190000006
+      },
+      "test": {
+        "total_return": 0.1359312610000003,
+        "ann_return": 0.04715870280888823,
+        "max_drawdown": -0.10812556178387578,
+        "sharpe": 0.44761547525172507,
+        "ann_turnover": 0.8317603116036801,
+        "n_trades": 24,
+        "end_equity": 113593.12610000002
+      },
+      "fails": [
+        "测试段夏普 0.45 未达到对照最高夏普 0.56 + 0.15",
+        "测试段年化 4.72% 低于对照较弱一方减容忍后的 6.97%",
+        "测试窗内仅 1/3 个日历年夏普不低于买入持有（2024 夏普 -1.08 / 买入持有 0.93, 2025 夏普 1.60 / 买入持有 1.60, 2026 夏普 -0.31 / 买入持有 -0.99）"
+      ],
+      "passed": false
+    }
+  ],
+  "benchmarks": {
+    "hs300_buy_hold": {
+      "train": {
+        "ann_return": -0.014578671824621914,
+        "max_drawdown": -0.4263466277787754,
+        "sharpe": 0.048274773398492225,
+        "ann_turnover": 0.08149695782920202,
+        "total_return": -0.0813520940000001
+      },
+      "test": {
+        "ann_return": 0.0896607340208766,
+        "max_drawdown": -0.21044922692032664,
+        "sharpe": 0.5383492037260326,
+        "ann_turnover": 0.14207495648691063,
+        "total_return": 0.2680693460000001
+      }
+    },
+    "equal_weight": {
+      "train": {
+        "ann_return": 0.005810535192318778,
+        "max_drawdown": -0.3353307067805167,
+        "sharpe": 0.13269506991158667,
+        "ann_turnover": 0.24203530891684732,
+        "total_return": 0.034041407999999995
+      },
+      "test": {
+        "ann_return": 0.09852761972332558,
+        "max_drawdown": -0.21553286383393522,
+        "sharpe": 0.5605175348375397,
+        "ann_turnover": 0.3285679561761987,
+        "total_return": 0.296814895
+      }
+    }
+  },
+  "note": "test_peek.csv is diagnostic only and was not used to pick parameters."
+}

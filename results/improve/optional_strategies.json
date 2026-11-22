@@ -1,0 +1,60 @@
+[
+  {
+    "key": "vol_ew_bond_tv8",
+    "name": "五只ETF等权目标波动率，剩余进国债（回看60日，目标8%）",
+    "description": "等权五只核心ETF并按组合波动率缩仓，剩余配置 511010。",
+    "factory": "make_vol_target_equal_weight",
+    "params": {
+      "vol_lookback": 60,
+      "target_vol": 0.08,
+      "max_scale": 1.0,
+      "leftover": "511010"
+    }
+  },
+  {
+    "key": "rp3_lb20",
+    "name": "股债金风险平价（回看20日）",
+    "description": "510300 / 511010 / 518880 按逆波动率加权，月度再平衡，不加杠杆。",
+    "factory": "make_risk_parity",
+    "params": {
+      "symbols": [
+        "510300",
+        "511010",
+        "518880"
+      ],
+      "vol_lookback": 20,
+      "ma_window": null,
+      "defensive": "511010"
+    }
+  },
+  {
+    "key": "rp4_lb20",
+    "name": "股债金纳风险平价（回看20日）",
+    "description": "再加入 513100 纳指ETF，同样逆波动率加权。",
+    "factory": "make_risk_parity",
+    "params": {
+      "symbols": [
+        "510300",
+        "511010",
+        "518880",
+        "513100"
+      ],
+      "vol_lookback": 20,
+      "ma_window": null,
+      "defensive": "511010"
+    }
+  },
+  {
+    "key": "perm_lite",
+    "name": "股债金 40/40/20（每月再平衡）",
+    "description": "固定 40% 沪深300ETF、40% 国债ETF、20% 黄金ETF。",
+    "factory": "make_fixed_mix",
+    "params": {
+      "weights": {
+        "510300": 0.4,
+        "511010": 0.4,
+        "518880": 0.2
+      }
+    }
+  }
+]
